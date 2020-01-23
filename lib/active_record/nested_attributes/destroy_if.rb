@@ -1,8 +1,12 @@
 require "active_record/nested_attributes/destroy_if/version"
+require "active_support/concern"
+require "active_record"
 
 module ActiveRecord
-  module NestedAttributes
-    module ClassMethods
+  module NestedAttributesDestroyIf
+    extend ActiveSupport::Concern
+
+    class_methods do
       def accepts_nested_attributes_for(*attr_names)
         options = { allow_destroy: false, update_only: false }
         options.update(attr_names.extract_options!)
@@ -45,7 +49,7 @@ module ActiveRecord
         raise_nested_attributes_record_not_found!(association_name, attributes["id"])
 
       elsif !reject_new_record?(association_name, attributes)
-        assignable_attributes = attributes.except(*UNASSIGNABLE_KEYS)
+        assignable_attributes = attributes.except(*ActiveRecord::NestedAttributes::UNASSIGNABLE_KEYS)
 
         if existing_record && existing_record.new_record?
           existing_record.assign_attributes(assignable_attributes)
@@ -99,7 +103,7 @@ module ActiveRecord
 
         if attributes["id"].blank?
           unless reject_new_record?(association_name, attributes)
-            association.build(attributes.except(*UNASSIGNABLE_KEYS))
+            association.build(attributes.except(*ActiveRecord::NestedAttributes::UNASSIGNABLE_KEYS))
           end
         elsif existing_record = existing_records.detect { |record| record.id.to_s == attributes["id"].to_s }
           unless call_reject_if(association_name, attributes)
@@ -128,7 +132,7 @@ module ActiveRecord
     end
 
     def assign_to_or_mark_for_destruction record, attributes, allow_destroy, destroy_if
-      record.assign_attributes attributes.except(*UNASSIGNABLE_KEYS)
+      record.assign_attributes attributes.except(*ActiveRecord::NestedAttributes::UNASSIGNABLE_KEYS)
       should_destroy =
         has_destroy_flag?(attributes) && allow_destroy ||
         case destroy_if
@@ -152,4 +156,6 @@ module ActiveRecord
     end
   end
 end
+
+ActiveRecord::Base.include ActiveRecord::NestedAttributesDestroyIf
 

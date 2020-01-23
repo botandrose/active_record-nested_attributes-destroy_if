@@ -5,7 +5,7 @@ require "active_record/nested_attributes/destroy_if/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "active_record-nested_attributes-destroy_if"
-  spec.version       = ActiveRecord::NestedAttributes::DestroyIf::VERSION
+  spec.version       = ActiveRecord::NestedAttributesDestroyIf::VERSION
   spec.authors       = ["Micah Geisel"]
   spec.email         = ["micah@botandrose.com"]
 
@@ -28,4 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "byebug"
 end

@@ -19,6 +19,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
+    byebug (11.1.0)
     concurrent-ruby (1.1.5)
     diff-lcs (1.3)
     i18n (1.8.2)
@@ -38,6 +39,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
+    sqlite3 (1.4.2)
     thread_safe (0.3.6)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
@@ -48,8 +50,10 @@ PLATFORMS
 DEPENDENCIES
   active_record-nested_attributes-destroy_if!
   bundler (~> 2.0)
+  byebug
   rake (~> 10.0)
   rspec (~> 3.0)
+  sqlite3
 
 BUNDLED WITH
    2.1.4
