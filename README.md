@@ -1,18 +1,8 @@
-# ActiveRecord::NestedAttributesDestroyIf
+# ActiveRecord::NestedAttributes::DestroyIf
+
+[![Build Status](https://travis-ci.org/botandrose/active_record-nested_attributes-destroy_if.svg?branch=master)](https://travis-ci.org/botandrose/active_record-nested_attributes-destroy_if)
 
 Adds a `:destroy_if` option to `.accepts_nested_attributes_for`, which is basically a stronger version of `:reject_if` that also destroys existing records.
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'active_record-nested_attributes-destroy_if'
-```
-
-And then execute:
-
-    $ bundle
 
 ## Usage
 
