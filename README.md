@@ -1,8 +1,6 @@
-# ActiveRecord::NestedAttributes::DestroyIf
+# ActiveRecord::NestedAttributesDestroyIf
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/active_record/nested_attributes/destroy_if`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Adds a `:destroy_if` option to `.accepts_nested_attributes_for`, which is basically a stronger version of `:reject_if` that also destroys existing records.
 
 ## Installation
 
@@ -16,13 +14,43 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install active_record-nested_attributes-destroy_if
-
 ## Usage
 
-TODO: Write usage instructions here
+Use the `destroy_if` option when `reject_if` isn't strong enough, i.e. you want to also destroy existing records that pass the test, not just reject new records.
+
+```ruby
+class Parent < ActiveRecord::Base
+  has_many :children
+  accepts_nested_attributes_for :children, destroy_if: proc { |attrs| attrs["name"].blank? }
+end
+
+class Child < ActiveRecord::Base
+  belongs_to :parent
+end
+
+tywin = Parent.create!(id: 1, name: "Tywin")
+Child.create!(id: 1, parent_id: 1, name: "Jaime")
+Child.create!(id: 2, parent_id: 1, name: "Tyrion")
+
+tywin.children # => [<Child id: 1, parent_id: 1, name: "Jaime">, <Child id: 2, parent_id: 1, name: "Tyrion">]
+
+tywin.update!({
+  children_attributes: {
+    "0" => {
+      id: 1,
+      name: "Ser Jaime",
+    },
+    "1" => {
+      id: 2,
+      name: "",
+    },
+  },
+})
+
+tywin.children # => [<Child id: 1, parent_id: 1, name: "Ser Jaime">]
+
+Child.find(2) # => raises ActiveRecord::RecordNotFound! Tyrion was destroyed!
+```
 
 ## Development
 
@@ -32,7 +60,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/active_record-nested_attributes-destroy_if.
+Bug reports and pull requests are welcome on GitHub at https://github.com/botandrose/active_record-nested_attributes-destroy_if.
 
 ## License
 
