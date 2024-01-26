@@ -147,5 +147,12 @@ RSpec.describe ActiveRecord::NestedAttributesDestroyIf do
         .to eq []
     end
   end
+
+  it "existing reject_if option still works" do
+    class Child < ActiveRecord::Base
+      has_many :toys
+      accepts_nested_attributes_for :toys, reject_if: :all_blank
+    end
+  end
 end
 

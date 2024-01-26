@@ -11,7 +11,7 @@ module ActiveRecord
         options = { allow_destroy: false, update_only: false }
         options.update(attr_names.extract_options!)
         options.assert_valid_keys(:allow_destroy, :reject_if, :destroy_if, :limit, :update_only)
-        options[:reject_if] = REJECT_ALL_BLANK_PROC if options[:reject_if] == :all_blank
+        options[:reject_if] = ActiveRecord::NestedAttributes::ClassMethods::REJECT_ALL_BLANK_PROC if options[:reject_if] == :all_blank
 
         attr_names.each do |association_name|
           if reflection = _reflect_on_association(association_name)
