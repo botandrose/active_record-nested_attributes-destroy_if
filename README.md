@@ -1,6 +1,6 @@
 # ActiveRecord::NestedAttributes::DestroyIf
 
-[![Build Status](https://travis-ci.org/botandrose/active_record-nested_attributes-destroy_if.svg?branch=master)](https://travis-ci.org/botandrose/active_record-nested_attributes-destroy_if)
+[![CI Status](https://github.com/botandrose/active_record-nested_attributes-destroy_if/workflows/CI/badge.svg?branch=master)](https://github.com/botandrose/active_record-nested_attributes-destroy_if/actions?query=workflow%3ACI+branch%3Amaster)
 
 Adds a `:destroy_if` option to `.accepts_nested_attributes_for`, which is basically a stronger version of `:reject_if` that also destroys existing records.
 
